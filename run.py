@@ -99,31 +99,30 @@ def part_to_ip(line):
 
 
 def list_to_part(ip_map):
+    len_map =  len(ip_map)
     ip_map.sort()
     start = -1
     ip_part = []
 
-    for i in range(0, len(ip_map)):
-        if i == 0:
-            start = i
-
-        if i == len(ip_map) - 1:
-            end = i
-            ip_part.append(number_to_ip(ip_map[start]) + '-' + number_to_ip(ip_map[end]))
-            continue
-
-        if ip_map[i + 1] - ip_map[i] > 1:
-            end = i
-            ip_part.append(number_to_ip(ip_map[start]) + '-' + number_to_ip(ip_map[end]))
-            continue
-
-        if 0 < i < (len(ip_map) - 1):
-            if ip_map[i] - ip_map[i - 1] > 1:
+    if len_map == 1:
+        ip_part.append(number_to_ip(ip_map[0]) + '-' + number_to_ip(ip_map[0]))
+    else:
+        for i in range(0, len_map):
+            if i == 0:
                 start = i
-            if ip_map[i + 1] - ip_map[i] > 1:
+                if ip_map[i + 1] - ip_map[i] > 1:
+                    end = i
+                    ip_part.append(number_to_ip(ip_map[start]) + '-' + number_to_ip(ip_map[end]))
+            elif i == len(ip_map) - 1:
                 end = i
                 ip_part.append(number_to_ip(ip_map[start]) + '-' + number_to_ip(ip_map[end]))
-                continue
+            elif 0 < i < (len(ip_map) - 1):
+                if ip_map[i] - ip_map[i - 1] > 1:
+                    start = i
+                if ip_map[i + 1] - ip_map[i] > 1:
+                    end = i
+                    ip_part.append(number_to_ip(ip_map[start]) + '-' + number_to_ip(ip_map[end]))
+                    start = i + 1
 
     return ip_part
     pass
@@ -169,6 +168,3 @@ if __name__ == '__main__':
     for line in ip_repeat:
         print line
 
-
-
-    pass
